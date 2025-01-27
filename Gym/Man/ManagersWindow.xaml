@@ -1,0 +1,97 @@
+﻿<Window x:Class="Gym.ManagersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Руководитель" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl x:Name="MainTabControl" SelectionChanged="TabControl_SelectionChanged" Grid.Row="0">
+            <TabItem Header="Отчеты" x:Name="PDFTab" FontSize="20">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,20">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Label Content="Выберите отчет:" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ComboBox x:Name="ReportComboBox" Width="250" Height="35" SelectionChanged="ReportComboBox_SelectionChanged">
+                                <ComboBoxItem Content="Доходы за выбранный период"/>
+                                <ComboBoxItem Content="Популярные услуги"/>
+                                <ComboBoxItem Content="График работы тренеров"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <Grid x:Name="DateSelectionGrid" Visibility="Collapsed" Margin="0,20,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="Начало периода:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,10"/>
+                            <DatePicker x:Name="StartDatePicker" Grid.Row="0" Grid.Column="1" Height="30" Margin="0,0,0,10"/>
+                            <Label Content="Конец периода:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <DatePicker x:Name="EndDatePicker" Grid.Row="1" Grid.Column="1" Height="30"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid x:Name="ReportDataGrid" Grid.Column="0" Margin="0,10,10,10" AutoGenerateColumns="True"/>
+
+                        <StackPanel Grid.Column="1" Margin="10,10,0,0" Orientation="Vertical">
+                            <Button Content="Показать отчет" Height="60" Width="180" Margin="0,0,0,20" FontSize="16" Click="ShowReportButton_Click"/>
+                            <Button Content="Сгенерировать в PDF" Height="60" Width="180" FontSize="16" Click="GeneratePdfButton_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Сотрудники" x:Name="EmploTab" FontSize="20">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Name="EmployeesDataGrid" AutoGenerateColumns="False" Margin="5,5,5,5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="*" />
+                            <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" />
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Roles.RoleName}" Width="*" />
+                            <DataGridTextColumn Header="Тренер" Binding="{Binding Trainers.Surname}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="1" Margin="0,10,0,0" Orientation="Vertical" HorizontalAlignment="Right" Width="215">
+                        <Button Content="Добавить сотрудника" Height="60" Width="199" Margin="0,0,0,10" FontSize="16" Click="AddEmployeeButton_Click"/>
+                        <Button Content="Редактировать сотрудника" Height="60" Width="199" Margin="0,0,0,10" FontSize="16" Click="EditEmployeeButton_Click"/>
+                        <Button Content="Удалить сотрудника" Height="60" Width="199" Margin="0,0,0,10" FontSize="16" Click="DeleteEmployeeButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StatusBar Grid.Row="1">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusBarText" Text="Вы находитесь во вкладке: Отчеты" FontSize="14"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Button x:Name="ExitButton" Content="Выход" Width="150" Height="50" 
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                Margin="0,0,20,40" FontSize="18" Click="ExitButton_Click" />
+    </Grid>
+</Window>

@@ -1,0 +1,48 @@
+﻿<Window x:Class="Gym.AddSubscriptionWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить абонемент" WindowState="Maximized">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="388" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Добавить абонемент" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                   FontSize="32" FontWeight="Bold" HorizontalAlignment="Left" Margin="134,10,0,10" Width="330" />
+
+        <TextBlock Text="Тип абонемента:" Grid.Row="1" Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="20" Height="26" />
+        <TextBox x:Name="TypeTextBox" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" MinWidth="200" FontSize="20" />
+
+        <TextBlock Text="Цена:" Grid.Row="2" Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="20" Height="27" />
+        <TextBox x:Name="PriceTextBox" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" MinWidth="200" FontSize="20" />
+
+        <TextBlock Text="Доступные услуги:" Grid.Row="3" Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="20" Height="26" />
+        <TextBox x:Name="AvailableServicesTextBox" Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" MinWidth="200" FontSize="20" />
+
+        <TextBlock Text="Максимум участников:" Grid.Row="4" Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="20" Height="27" />
+        <TextBox x:Name="MaxParticipantsTextBox" Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" MinWidth="200" FontSize="20" />
+
+        <TextBlock Text="Кол-во зарегистрированных клиентов:" Grid.Row="5" Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="20" Height="27" />
+        <TextBox x:Name="RegisteredClientsTextBox" Grid.Row="5" Grid.Column="1" Margin="5,5,5,5" MinWidth="200" FontSize="20" />
+
+        <TextBlock Text="Длительность (в днях):" Grid.Row="6" Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="20" Height="26" />
+        <TextBox x:Name="DurationDaysTextBox" Grid.Row="6" Grid.Column="1" Margin="5,5,5,5" MinWidth="200" FontSize="20" />
+
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="79,20,0,0" Width="440">
+            <Button Content="Добавить" Width="200" Height="45" FontSize="20" Margin="10,0" Click="AddButton_Click" />
+            <Button Content="Отменить" Width="200" Height="45" FontSize="20" Margin="10,0" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

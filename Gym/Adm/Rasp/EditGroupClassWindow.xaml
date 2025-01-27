@@ -1,0 +1,37 @@
+﻿<Window x:Class="Gym.EditGroupClassWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gym"
+        mc:Ignorable="d"
+        Title="Редактировать занятие" WindowState="Maximized">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Редактирование занятия" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+            <Label Content="Название занятия:" FontSize="20" Margin="0,0,0,5"/>
+            <TextBox x:Name="ClassNameTextBox" FontSize="20" Margin="0,0,0,15" MinWidth="200" HorizontalAlignment="Stretch"/>
+
+            <Label Content="Дата:" FontSize="20" Margin="0,0,0,5"/>
+            <DatePicker x:Name="ClassDatePicker" FontSize="20" Margin="0,0,0,15" MinWidth="200" HorizontalAlignment="Stretch"/>
+
+            <Label Content="Время:" FontSize="20" Margin="0,0,0,5"/>
+            <TextBox x:Name="ClassTimeTextBox" FontSize="20" Margin="0,0,0,15" MinWidth="200" HorizontalAlignment="Stretch"/>
+
+            <Label Content="Макс. участники:" FontSize="20" Margin="0,0,0,5"/>
+            <TextBox x:Name="MaxParticipantsTextBox" FontSize="20" Margin="0,0,0,15" MinWidth="200" HorizontalAlignment="Stretch"/>
+
+            <Label Content="Зарегистрированные:" FontSize="20" Margin="0,0,0,5"/>
+            <TextBox x:Name="RegisteredClientsTextBox" FontSize="20" Margin="0,0,0,15" MinWidth="200" HorizontalAlignment="Stretch"/>
+
+            <Label Content="Тренер:" FontSize="20" Margin="0,0,0,5"/>
+            <ComboBox x:Name="TrainerComboBox" FontSize="20" Margin="0,0,0,15" MinWidth="200" HorizontalAlignment="Stretch"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Button Content="Сохранить" Width="200" Height="45" FontSize="20" Margin="10,0,10,0" Click="SaveButton_Click"/>
+                <Button Content="Отмена" Width="200" Height="45" FontSize="20" Margin="10,0,10,0" Click="CancelButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

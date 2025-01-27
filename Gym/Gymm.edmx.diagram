@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1e9c98c60533455e85438c2acb68e6bb" Name="Diagram1">
+        <EntityTypeShape EntityType="GymmModel.Clients" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.GroupClass_Clients" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.GroupClasses" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.Payment" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.Roles" Width="1.5" PointX="3.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.Subscriptions" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.Trainers" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GymmModel.UserAccounts" Width="1.5" PointX="6" PointY="9.625" IsExpanded="true" />
+        <AssociationConnector Association="GymmModel.FK__Clients__Subscri__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="GymmModel.FK__GroupClas__Clien__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="GymmModel.FK__Payment__Client___534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="GymmModel.FK__GroupClas__Class__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="GymmModel.FK__GroupClas__Train__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="GymmModel.FK__UserAccou__Role___5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="GymmModel.FK_UserAccounts_Trainers" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GymmModel.sysdiagrams" Width="1.5" PointX="7.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

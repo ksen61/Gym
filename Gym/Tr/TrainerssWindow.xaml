@@ -1,0 +1,59 @@
+﻿<Window x:Class="Gym.TrainerssWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Тренер" WindowState="Maximized">
+    <Grid>
+        <TabControl x:Name="TabControl" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="Расписание" FontSize="20">
+                <DataGrid x:Name="ScheduleDataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False" FontSize="20"
+                          SelectionChanged="ScheduleDataGrid_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Занятие" Binding="{Binding ClassName}" Width="*" FontSize="20" />
+                        <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*" FontSize="20" />
+                        <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="*" FontSize="20" />
+                        <DataGridTextColumn Header="Максимальное кол-во" Binding="{Binding MaxParticipants}" Width="*" FontSize="20" />
+                        <DataGridTextColumn Header="Зарегистрировано участников" Binding="{Binding RegisteredClients}" Width="*" FontSize="20" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Посещаемость" FontSize="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Content="Сохранить изменения" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center" 
+                Margin="10"
+                Width="250" 
+                Height="60" 
+                FontSize="20" 
+                Click="SaveAttendanceButton_Click" 
+                Grid.Row="0"/>
+
+                    <DataGrid x:Name="AttendanceDataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="False" FontSize="20" Grid.Row="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientName}" Width="*" FontSize="20" />
+                            <DataGridTextColumn Header="Занятие" Binding="{Binding ClassName}" Width="*" FontSize="20" />
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*" FontSize="20" />
+                            <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="*" FontSize="20" />
+                            <DataGridCheckBoxColumn Header="Присутствует" Binding="{Binding AttendanceStatus_Bit}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+        <StatusBar VerticalAlignment="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusTextBlock" Text="Выберите вкладку..." FontSize="16"/>
+            </StatusBarItem>
+        </StatusBar>
+        <Button x:Name="ExitButton" Content="Выход" Width="150" Height="50" 
+        HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+        Margin="0,0,20,40" FontSize="18" Click="ExitButton_Click" />
+    </Grid>
+</Window>

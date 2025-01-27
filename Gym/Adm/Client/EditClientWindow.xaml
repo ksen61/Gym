@@ -1,0 +1,45 @@
+﻿<Window x:Class="Gym.EditClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование клиента" WindowState="Maximized">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Редактирование клиента" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Фамилия:" FontSize="20" Margin="0,0,0,3"/>
+            <TextBox x:Name="SurnameTextBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Имя:" FontSize="20" Margin="0,0,0,3"/>
+            <TextBox x:Name="FirstnameTextBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Отчество:" FontSize="20" Margin="0,0,0,3"/>
+            <TextBox x:Name="MiddlenameTextBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Телефон:" FontSize="20" Margin="0,0,0,3"/>
+            <TextBox x:Name="PhoneTextBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Email:" FontSize="20" Margin="0,0,0,3"/>
+            <TextBox x:Name="EmailTextBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Дата рождения:" FontSize="20" Margin="0,0,0,3"/>
+            <DatePicker x:Name="BirthDatePicker" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Дата покупки:" FontSize="20" Margin="0,0,0,3"/>
+            <DatePicker x:Name="PurchaseDatePicker" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Дата окончания:" FontSize="20" Margin="0,0,0,3"/>
+            <DatePicker x:Name="EndDatePicker" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"  IsEnabled="False"/>
+
+            <TextBlock Text="Абонемент:" FontSize="20" Margin="0,0,0,3"/>
+            <ComboBox x:Name="SubscriptionComboBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <TextBlock Text="Статус абонемента:" FontSize="20" Margin="0,0,0,3"/>
+            <ComboBox x:Name="SubscriptionStatusComboBox" FontSize="20" Margin="0,0,0,10" MinWidth="200" Height="30"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+                <Button Content="Сохранить" Width="200" Height="45" FontSize="20" Margin="5,0,5,0" Click="SaveButton_Click"/>
+                <Button Content="Отмена"  Width="200" Height="45" FontSize="20" Margin="5,0,5,0" Click="CancelButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
