@@ -3,18 +3,29 @@ using System.Windows;
 using System.Security.Cryptography;
 using System.Text;
 
-
+/// <summary>
+/// Класс окна авторизации пользователя, где осуществляется проверка логина и пароля для входа в систему.
+/// В зависимости от роли пользователя, открывается соответствующее окно.
+/// </summary>
 namespace Gym
 {
     public partial class LoginWindow : Window
     {
         private GymmEntities context = new GymmEntities();
 
+        /// <summary>
+        /// Конструктор окна авторизации. Инициализирует компоненты интерфейса.
+        /// </summary>
         public LoginWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Обработчик клика по кнопке входа. Проверяет логин и пароль пользователя, осуществляет хеширование пароля
+        /// и находит пользователя в базе данных. В зависимости от роли пользователя открывает соответствующее окно.
+        /// Если данные некорректны, выводит ошибку.
+        /// </summary>
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string login = LoginBox.Text.Trim();
@@ -65,6 +76,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Хеширует пароль пользователя с использованием алгоритма SHA-256.
+        /// </summary>
         public static string HashPassword(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
@@ -79,7 +93,5 @@ namespace Gym
                 return builder.ToString();
             }
         }
-
-
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
-
+/// <summary>
+/// Класс, представляющий посещаемость клиента на занятиях.
+/// Содержит информацию о клиенте, статусе посещаемости, названии занятия, времени и дате занятия.
+/// </summary>
 public class Attendance
 {
     public string ClientName { get; set; }
@@ -9,5 +12,4 @@ public class Attendance
     public TimeSpan Time { get; set; }
     public int Client_ID { get; set; }
     public int Class_ID { get; set; }
-
 }

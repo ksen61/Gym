@@ -5,10 +5,16 @@ using System.Windows.Controls;
 
 namespace Gym
 {
+    /// <summary>
+    /// Класс для отображения и управления расписанием тренеров и посещаемостью их занятий.
+    /// </summary>
     public partial class TrainerssWindow : Window
     {
         private GymmEntities context = new GymmEntities();
 
+        /// <summary>
+        /// Конструктор окна тренера, который загружает расписание для конкретного тренера по его ID.
+        /// </summary>
         public TrainerssWindow(int userId)
         {
             InitializeComponent();
@@ -40,6 +46,9 @@ namespace Gym
             LoadAttendance();
         }
 
+        /// <summary>
+        /// Загружает данные о посещаемости для каждого занятия тренера.
+        /// </summary>
         private void LoadAttendance()
         {
             var attendanceData = context.GroupClass_Clients
@@ -65,13 +74,19 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Закрывает текущее окно и возвращает пользователя на экран входа.
+        /// </summary>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.Show();
             this.Close();
         }
+
+        /// <summary>
+        /// Обработчик смены вкладки в интерфейсе, обновляющий текст с информацией о текущей вкладке.
+        /// </summary>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TabControl.SelectedItem is TabItem selectedTab)
@@ -80,7 +95,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Сохраняет изменения в посещаемости для каждого клиента, отредактировавшего свой статус.
+        /// </summary>
         private void SaveAttendanceButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -113,7 +130,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Обработчик выбора занятия в расписании для загрузки соответствующей информации о посещаемости.
+        /// </summary>
         private void ScheduleDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ScheduleDataGrid.SelectedItem != null)
@@ -124,6 +143,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обработчик редактирования ячейки таблицы посещаемости для обновления статуса посещаемости.
+        /// </summary>
         private void AttendanceDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             var editedItem = e.Row.Item as dynamic;

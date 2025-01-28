@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
+/// <summary>
+/// Окно редактирования данных клиента в системе. Позволяет пользователю изменить информацию о клиенте, такую как фамилия, имя, отчество, 
+/// дата рождения, телефон, email, а также выбрать новый абонемент и статус абонемента. После редактирования данные сохраняются в базе данных.
+/// Включает валидацию введённых данных и обработку ошибок, а также автоматическое вычисление даты окончания абонемента на основе выбранного абонемента.
+/// </summary>
+
 namespace Gym
 {
     public partial class EditClientWindow : Window
@@ -10,6 +16,11 @@ namespace Gym
         private GymmEntities context;
         private int clientId;
 
+        /// <summary>
+        /// Конструктор окна редактирования данных клиента. Инициализирует компоненты окна, загружает данные клиента из базы данных,
+        /// и заполняет поля для редактирования данными клиента, такими как фамилия, имя, отчество, телефон, email, дата рождения, 
+        /// дата покупки, выбранный абонемент и его статус.
+        /// </summary>
         public EditClientWindow(GymmEntities context, int clientId)
         {
             InitializeComponent();
@@ -57,6 +68,10 @@ namespace Gym
             PurchaseDatePicker.SelectedDateChanged += PurchaseDatePicker_SelectedDateChanged;
         }
 
+        /// <summary>
+        /// Обработчик изменения выбранной даты покупки. При изменении даты покупки автоматически пересчитывается дата окончания абонемента
+        /// на основе выбранного абонемента и даты покупки.
+        /// </summary>
         private void PurchaseDatePicker_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (PurchaseDatePicker.SelectedDate.HasValue)
@@ -71,6 +86,11 @@ namespace Gym
             }
         }
 
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Сохранить". Выполняет валидацию введенных данных, обновляет информацию о клиенте в базе данных,
+        /// и сохраняет изменения. Если данные корректны, происходит сохранение и закрытие окна. В случае ошибок выводится сообщение.
+        /// </summary>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateFields())
@@ -145,11 +165,18 @@ namespace Gym
         }
 
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Отмена". Закрывает текущее окно редактирования без внесения изменений.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Функция валидации введённых данных. Проверяет корректность всех полей, включая фамилию, имя, отчество, дату рождения,
+        /// телефон, email и выбор абонемента. Возвращает false, если найдены ошибки, и выводит соответствующие сообщения.
+        /// </summary>
         private bool ValidateFields()
         {
             if (string.IsNullOrWhiteSpace(SurnameTextBox.Text) || !SurnameTextBox.Text.All(char.IsLetter))
@@ -198,6 +225,10 @@ namespace Gym
             return true;
         }
 
+        /// <summary>
+        /// Функция проверки корректности email адреса. Использует класс для проверки
+        /// формата email. Возвращает true, если email корректен, и false в случае ошибок.
+        /// </summary>
         private bool IsValidEmail(string email)
         {
             try

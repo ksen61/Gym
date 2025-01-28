@@ -7,6 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+/// <summary>
+/// Основное окно приложения для управления залом. 
+/// Содержит функционал для работы с клиентами, расписанием и абонементами.
+/// </summary>
 namespace Gym
 {
     public partial class MainWindow : Window
@@ -15,6 +19,10 @@ namespace Gym
         private int clientId;
         private string surnameSearchText = string.Empty;
 
+        /// <summary>
+        /// Конструктор главного окна приложения. Инициализирует контекст данных и устанавливает текущую дату. 
+        /// Убирает вкладки с расписанием и абонементами, если роль пользователя не "Администратор".
+        /// </summary>
         public MainWindow(string userRole)
         {
             InitializeComponent();
@@ -33,6 +41,10 @@ namespace Gym
                     MainTabControl.Items.Remove(ScheduleTab);
             }
         }
+
+        /// <summary>
+        /// Загружает список групповых занятий, запланированных на текущий день.
+        /// </summary>
         private void LoadScheduledClasses()
         {
             using (var context = new GymmEntities())
@@ -58,6 +70,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обновляет уведомление о клиентах с истекающими абонементами.
+        /// </summary>
         private async void UpdateSubscriptionExpiryNotification()
         {
             var clients = context.Clients.ToList(); 
@@ -79,7 +94,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Обрабатывает нажатие кнопки выхода, открывая окно входа и закрывая текущее окно.
+        /// </summary>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
@@ -88,7 +105,9 @@ namespace Gym
             this.Close();
         }
 
-
+        /// <summary>
+        /// Обрабатывает смену вкладки в контроле TabControl, загружая соответствующий контент для каждой вкладки.
+        /// </summary>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.Source is TabControl)
@@ -118,6 +137,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Загружает список клиентов с учетом фильтра по статусу и фамилии.
+        /// </summary>
         private void LoadClients()
         {
             try
@@ -161,6 +183,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Открывает окно добавления нового клиента и перезагружает список клиентов.
+        /// </summary>
         private void AddClientButton_Click(object sender, RoutedEventArgs e)
         {
             var addClientWindow = new AddClientWindow(context);
@@ -168,7 +193,9 @@ namespace Gym
             LoadClients(); 
         }
 
-
+        /// <summary>
+        /// Открывает окно редактирования выбранного клиента и перезагружает список клиентов.
+        /// </summary>
         private void EditClientButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClientsDataGrid.SelectedItem is null)
@@ -185,6 +212,9 @@ namespace Gym
             LoadClients(); 
         }
 
+        /// <summary>
+        /// Удаляет выбранного клиента из базы данных после подтверждения действия пользователем.
+        /// </summary>
         private void DeleteClientButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClientsDataGrid.SelectedItem is null)
@@ -216,19 +246,26 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Обрабатывает изменение выбранного фильтра статуса клиента и обновляет список клиентов.
+        /// </summary>
         private void StatusFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadClients();
         }
 
+        /// <summary>
+        /// Обрабатывает изменение текста для поиска по фамилии клиента и обновляет список клиентов.
+        /// </summary>
         private void SurnameSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             surnameSearchText = SurnameSearchTextBox.Text.Trim().ToLower();
             LoadClients();
         }
 
-
+        /// <summary>
+        /// Загружает список абонементов с фильтрацией по продолжительности и цене.
+        /// </summary>
         private void LoadSubscriptions()
         {
             try
@@ -321,16 +358,28 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обработчик события изменения выбранного значения в ComboBox для фильтрации абонементов по цене.
+        /// Перезагружает абонементы с учетом выбранного фильтра.
+        /// </summary>
         private void PriceFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadSubscriptions(); 
         }
 
+        /// <summary>
+        /// Обработчик события изменения выбранного значения в ComboBox для фильтрации абонементов по длительности.
+        /// Перезагружает абонементы с учетом выбранного фильтра.
+        /// </summary>
         private void DurationDayFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadSubscriptions(); 
         }
 
+        /// <summary>
+        /// Открывает окно для добавления нового абонемента.
+        /// После добавления, перезагружает список абонементов.
+        /// </summary>
         private void AddSubscriptionsButton_Click(object sender, RoutedEventArgs e)
         {
             var addSubscriptionsWindow = new AddSubscriptionWindow(context);
@@ -338,6 +387,10 @@ namespace Gym
             LoadSubscriptions();
         }
 
+        /// <summary>
+        /// Открывает окно для редактирования выбранного абонемента.
+        /// Если абонемент не выбран, отображает сообщение об ошибке.
+        /// </summary>
         private void EditSubscriptionsButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -361,6 +414,10 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Удаляет выбранный абонемент после подтверждения действия.
+        /// Если абонемент не найден или не выбран, отображает соответствующие сообщения.
+        /// </summary>
         private void DeleteSubscriptionsButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -405,8 +462,10 @@ namespace Gym
             }
         }
 
-
-
+        /// <summary>
+        /// Загружает расписание занятий, объединяя информацию о групповых занятиях и тренерах.
+        /// Отображает данные в DataGrid для дальнейшего взаимодействия пользователя с расписанием.
+        /// </summary>
         private void LoadSchedule()
         {
             try
@@ -436,7 +495,10 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Открывает окно для добавления нового занятия в расписание.
+        /// После добавления, обновляет расписание для отображения нового занятия.
+        /// </summary>
         private void AddClassButton_Click(object sender, RoutedEventArgs e)
         {
             var addClassWindow = new AddGroupClassWindow(context);
@@ -444,6 +506,11 @@ namespace Gym
             LoadSchedule();
         }
 
+        /// <summary>
+        /// Открывает окно для редактирования выбранного занятия.
+        /// Если занятие не выбрано, выводится сообщение об ошибке.
+        /// После редактирования, обновляется расписание для отображения изменений.
+        /// </summary>
         private void EditClassButton_Click(object sender, RoutedEventArgs e)
         {
             if (ScheduleDataGrid.SelectedItem is null)
@@ -469,8 +536,11 @@ namespace Gym
             }
         }
 
-
-
+        /// <summary>
+        /// Удаляет выбранное занятие из расписания после подтверждения действия.
+        /// Если занятие не выбрано или не найдено, выводится соответствующее сообщение об ошибке.
+        /// После удаления обновляется расписание.
+        /// </summary>
         private void DeleteClassButton_Click(object sender, RoutedEventArgs e)
         {
             if (ScheduleDataGrid.SelectedItem is null)
@@ -511,6 +581,10 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Фильтрует расписание занятий по введенному тексту в поле поиска.
+        /// Если поле поиска пустое, выводится полное расписание.
+        /// </summary>
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = SearchTextBox.Text.ToLower();
@@ -541,8 +615,5 @@ namespace Gym
                 LoadSchedule();
             }
         }
-
-
-
     }
 }

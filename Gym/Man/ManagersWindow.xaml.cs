@@ -11,12 +11,18 @@ using System.Collections.ObjectModel;
 
 namespace Gym
 {
+    /// <summary>
+    /// Окно для управления сотрудниками, формирования отчетов и взаимодействия с данными тренажерного зала.
+    /// Включает функции добавления, редактирования, удаления сотрудников, а также генерации отчетов в различных форматах.
+    /// </summary>
     public partial class ManagersWindow : Window
     {
         private GymmEntities _context;
         private ObservableCollection<UserAccounts> _employees = new ObservableCollection<UserAccounts>();
 
-
+        /// <summary>
+        /// Конструктор окна менеджера, инициализирует контекст базы данных и загружает список сотрудников.
+        /// </summary>
         public ManagersWindow()
         {
             InitializeComponent();
@@ -29,6 +35,9 @@ namespace Gym
 
         }
 
+        /// <summary>
+        /// Загружает список сотрудников из базы данных и отображает их в таблице.
+        /// </summary>
         private void LoadEmployees()
         {
             try
@@ -56,6 +65,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Открывает окно для добавления нового сотрудника.
+        /// </summary>
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             AddEmployeeWindow addEmployeeWindow = new AddEmployeeWindow();
@@ -63,8 +75,9 @@ namespace Gym
             LoadEmployees();
         }
 
-
-
+        /// <summary>
+        /// Открывает окно для редактирования выбранного сотрудника.
+        /// </summary>
         private void EditEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedEmployee = EmployeesDataGrid.SelectedItem as UserAccounts;
@@ -81,7 +94,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Удаляет выбранного сотрудника после подтверждения.
+        /// </summary>
         private void DeleteEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedEmployee = EmployeesDataGrid.SelectedItem as UserAccounts;
@@ -104,8 +119,9 @@ namespace Gym
             }
         }
 
-
-
+        /// <summary>
+        /// Закрывает текущее окно и открывает окно авторизации.
+        /// </summary>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
@@ -113,6 +129,9 @@ namespace Gym
             this.Close();
         }
 
+        /// <summary>
+        /// Обрабатывает изменение вкладки и обновляет статус в статусной строке.
+        /// </summary>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MainTabControl.SelectedItem is TabItem selectedTab)
@@ -121,7 +140,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Показывает/скрывает элементы управления для выбора дат в зависимости от выбранного отчета.
+        /// </summary>
         private void ReportComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ReportComboBox.SelectedItem is ComboBoxItem selectedItem)
@@ -137,6 +158,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Загружает отчет на основе выбранного типа отчета.
+        /// </summary>
         private void LoadOt(string reportName)
         {
             if (reportName == "Доходы за выбранный период")
@@ -159,6 +183,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обрабатывает нажатие кнопки для отображения выбранного отчета.
+        /// </summary>
         private void ShowReportButton_Click(object sender, RoutedEventArgs e)
         {
             string selectedReport = (ReportComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString();
@@ -179,7 +206,9 @@ namespace Gym
             LoadOt(selectedReport); 
         }
 
-
+        /// <summary>
+        /// Формирует отчет о доходах за выбранный период.
+        /// </summary>
         private void ShowIncomeReport()
         {
             DateTime startDate = StartDatePicker.SelectedDate.Value;
@@ -197,6 +226,9 @@ namespace Gym
             ReportDataGrid.ItemsSource = income;
         }
 
+        /// <summary>
+        /// Формирует отчет о популярных услугах.
+        /// </summary>
         private void ShowPopularServicesReport()
         {
             var popularServices = _context.Subscriptions
@@ -213,6 +245,9 @@ namespace Gym
             ReportDataGrid.ItemsSource = popularServices;
         }
 
+        /// <summary>
+        /// Формирует отчет о графике работы тренеров.
+        /// </summary>
         private void ShowTrainerScheduleReport()
         {
             var trainerSchedule = _context.GroupClasses
@@ -227,6 +262,9 @@ namespace Gym
             ReportDataGrid.ItemsSource = trainerSchedule;
         }
 
+        /// <summary>
+        /// Генерирует PDF-отчет на основе выбранного типа отчета и сохраняет его в файл.
+        /// </summary>
         private void GeneratePdfButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedReport = (ReportComboBox.SelectedItem as ComboBoxItem).Content.ToString();

@@ -2,12 +2,20 @@
 using System.Linq;
 using System.Windows;
 
+/// <summary>
+/// Окно добавления нового занятия в систему. Позволяет пользователю ввести данные занятия,
+/// после чего сохраняет информацию о зантии в базе данных. Также включает в себя валидацию введённых данных и обработку ошибок.
+/// </summary>
 namespace Gym
 {
     public partial class AddGroupClassWindow : Window
     {
         private GymmEntities context;
 
+        /// <summary>
+        /// Конструктор окна для добавления группового занятия. Загружает список тренеров из базы данных
+        /// и устанавливает его в выпадающий список тренеров.
+        /// </summary>
         public AddGroupClassWindow(GymmEntities dbContext)
         {
             InitializeComponent();
@@ -20,15 +28,27 @@ namespace Gym
             TrainerComboBox.SelectedValuePath = "ID_Trainer";
         }
 
+        /// <summary>
+        /// Обработчик события для предотвращения ввода некорректных символов в поле времени.
+        /// Разрешает ввод только цифр и двоеточия.
+        /// </summary>
         private void TimeTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             e.Handled = !System.Text.RegularExpressions.Regex.IsMatch(e.Text, @"^[0-9:]$");
         }
 
+        /// <summary>
+        /// Обработчик события для кнопки отмены. Закрывает текущее окно.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+        /// <summary>
+        /// Обработчик события для кнопки добавления нового группового занятия. Проверяет введенные данные,
+        /// добавляет новое занятие в базу данных и сохраняет изменения.
+        /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -99,7 +119,5 @@ namespace Gym
                 MessageBox.Show($"Ошибка при добавлении занятия: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
     }
 }

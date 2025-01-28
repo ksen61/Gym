@@ -8,10 +8,19 @@ using System.Data.Entity.Validation;
 
 namespace Gym
 {
+    /// <summary>
+    /// Окно для добавления нового сотрудника в систему.
+    /// Позволяет вводить данные пользователя, такие как логин, пароль, роль и тренера.
+    /// После сохранения нового сотрудника в базе данных, окно закрывается и возвращается результат.
+    /// </summary>
     public partial class AddEmployeeWindow : Window
     {
         private GymmEntities _context;
 
+        /// <summary>
+        /// Конструктор окна для добавления нового сотрудника.
+        /// Инициализирует контекст базы данных и загружает список ролей и тренеров для выбора.
+        /// </summary>
         public AddEmployeeWindow()
         {
             InitializeComponent();
@@ -26,6 +35,9 @@ namespace Gym
             TrainerComboBox.SelectedValuePath = "ID_Trainer";
         }
 
+        /// <summary>
+        /// Хеширует пароль с использованием алгоритма SHA256.
+        /// </summary>
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -41,6 +53,12 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обрабатывает нажатие кнопки для добавления нового сотрудника.
+        /// Проверяет заполнение всех полей, хеширует пароль и добавляет нового сотрудника в базу данных.
+        /// В случае успеха отображает сообщение и закрывает окно.
+        /// В случае ошибки сохраняет и отображает сообщения об ошибках валидации.
+        /// </summary>
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(LoginTextBox.Text) || string.IsNullOrEmpty(PasswordBox.Password) || RoleComboBox.SelectedItem == null)
@@ -83,10 +101,13 @@ namespace Gym
                 MessageBox.Show($"Ошибка при сохранении данных:\n{errorMessages.ToString()}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Обрабатывает нажатие кнопки для отмены добавления сотрудника и закрывает окно.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
     }
 }

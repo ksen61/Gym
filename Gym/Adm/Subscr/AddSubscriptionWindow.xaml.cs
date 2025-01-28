@@ -3,23 +3,37 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 
+/// <summary>
+/// Окно добавления нового абонемента в систему. Позволяет пользователю ввести данные абонемента,
+/// после чего сохраняет информацию в базе данных. Также включает в себя валидацию введённых данных и обработку ошибок.
+/// </summary>
 namespace Gym
 {
     public partial class AddSubscriptionWindow : Window
     {
         private GymmEntities context;
 
+        /// <summary>
+        /// Конструктор окна для добавления абонемента. Инициализирует окно и устанавливает контекст базы данных.
+        /// </summary>
         public AddSubscriptionWindow(GymmEntities dbContext)
         {
             InitializeComponent();
             context = dbContext;
         }
 
+        /// <summary>
+        /// Обработчик события для кнопки отмены. Закрывает окно добавления абонемента без сохранения изменений.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Обработчик события для кнопки добавления абонемента. Проверяет введенные данные, создает новый абонемент
+        /// и сохраняет его в базе данных. Если данные некорректны, выводит сообщения об ошибке.
+        /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -9,12 +9,20 @@ using System.Collections.ObjectModel;
 
 namespace Gym
 {
+    /// <summary>
+    /// Окно для редактирования данных сотрудника.
+    /// Позволяет редактировать логин, пароль, роль и тренера сотрудника, а также сохранять изменения в базе данных.
+    /// </summary>
     public partial class EditEmployeeWindow : Window
     {
         private GymmEntities _context;
         private UserAccounts _selectedUser;
-        private ObservableCollection<UserAccounts> _employees; 
+        private ObservableCollection<UserAccounts> _employees;
 
+        /// <summary>
+        /// Конструктор окна для редактирования данных сотрудника.
+        /// Загружает информацию о выбранном сотруднике и отображает её в соответствующих полях.
+        /// </summary>
         public EditEmployeeWindow(int userId, ObservableCollection<UserAccounts> employees)
         {
             InitializeComponent();
@@ -39,7 +47,12 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Обрабатывает нажатие кнопки для сохранения изменений данных сотрудника.
+        /// Проверяет заполнение всех полей, хеширует новый пароль и обновляет информацию в базе данных.
+        /// В случае успеха отображает сообщение и обновляет данные в коллекции сотрудников.
+        /// В случае ошибки сохраняет и отображает сообщения об ошибках валидации.
+        /// </summary>
         private void EditEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(LoginTextBox.Text) || string.IsNullOrEmpty(PasswordBox.Password) || RoleComboBox.SelectedItem == null)
@@ -52,8 +65,8 @@ namespace Gym
 
             _selectedUser.Login = LoginTextBox.Text;
             _selectedUser.Password = hashedPassword;
-            _selectedUser.Role_ID = (int)RoleComboBox.SelectedValue;  // Роль
-            _selectedUser.Trainer_ID = TrainerComboBox.SelectedItem != null ? (int?)TrainerComboBox.SelectedValue : null;  // Тренер
+            _selectedUser.Role_ID = (int)RoleComboBox.SelectedValue;  
+            _selectedUser.Trainer_ID = TrainerComboBox.SelectedItem != null ? (int?)TrainerComboBox.SelectedValue : null;  
 
             try
             {
@@ -88,11 +101,19 @@ namespace Gym
             }
         }
 
+
+        /// <summary>
+        /// Обрабатывает нажатие кнопки для отмены редактирования и закрытия окна.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+
+        /// <summary>
+        /// Хеширует пароль с использованием алгоритма SHA256.
+        /// </summary>
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

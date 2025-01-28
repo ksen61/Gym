@@ -3,6 +3,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 
+/// <summary>
+/// Окно редактирвоания данныъ занятия в системе. Позволяет пользователю ихменить данные зантия,
+/// после чего сохраняет информацию в базе данных. Также включает в себя валидацию введённых данных и обработку ошибок.
+/// </summary>
 namespace Gym
 {
     public partial class EditGroupClassWindow : Window
@@ -10,6 +14,10 @@ namespace Gym
         private GymmEntities context;
         private GroupClasses groupClass;
 
+        /// <summary>
+        /// Конструктор окна для редактирования группового занятия. Инициализирует поля окна значениями
+        /// существующего занятия и загружает список тренеров из базы данных.
+        /// </summary>
         public EditGroupClassWindow(GymmEntities dbContext, GroupClasses classToEdit)
         {
             InitializeComponent();
@@ -30,6 +38,11 @@ namespace Gym
             TrainerComboBox.SelectedValue = groupClass.Trainer_ID;
         }
 
+
+        /// <summary>
+        /// Обработчик события для кнопки сохранения. Проверяет введенные данные, обновляет информацию о занятии
+        /// в базе данных и сохраняет изменения.
+        /// </summary>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -98,6 +111,9 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обработчик события для кнопки отмены. Закрывает окно редактирования без сохранения изменений.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

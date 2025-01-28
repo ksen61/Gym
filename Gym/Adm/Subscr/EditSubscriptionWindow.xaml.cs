@@ -2,6 +2,10 @@
 using System.Linq;
 using System.Windows;
 
+/// <summary>
+/// Окно редактирования данных абонемента в системе. Позволяет пользователю изменить данные абонемента,
+/// после чего сохраняет информацию в базе данных. Также включает в себя валидацию введённых данных и обработку ошибок.
+/// </summary>
 namespace Gym
 {
     public partial class EditSubscriptionWindow : Window
@@ -9,6 +13,10 @@ namespace Gym
         private GymmEntities context;
         private int subscriptionId;
 
+        /// <summary>
+        /// Конструктор окна для редактирования абонемента. Загружает данные выбранного абонемента из базы данных
+        /// и отображает их в соответствующих полях ввода. Если абонемент не найден, закрывает окно с ошибкой.
+        /// </summary>
         public EditSubscriptionWindow(GymmEntities context, int subscriptionId)
         {
             InitializeComponent();
@@ -41,6 +49,10 @@ namespace Gym
             }
         }
 
+        /// <summary>
+        /// Обработчик события для кнопки сохранения изменений. Проверяет введенные данные, обновляет информацию об абонементе
+        /// в базе данных и сохраняет изменения. Если данные некорректны, выводит сообщения об ошибке.
+        /// </summary>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -118,7 +130,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Обработчик события для кнопки отмены. Закрывает окно редактирования абонемента без сохранения изменений.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

@@ -3,12 +3,20 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
+/// <summary>
+/// Окно добавления нового клиента в систему. Позволяет пользователю ввести данные клиента, выбрать абонемент и статус абонемента,
+/// после чего сохраняет информацию о клиенте в базе данных. Также включает в себя валидацию введённых данных и обработку ошибок.
+/// </summary>
+
 namespace Gym
 {
     public partial class AddClientWindow : Window
     {
         private GymmEntities context;
 
+        /// <summary>
+        /// Конструктор окна добавления нового клиента. Инициализирует компоненты окна и заполняет комбобокс с абонементами из базы данных.
+        /// </summary>
         public AddClientWindow(GymmEntities dbContext)
         {
             InitializeComponent();
@@ -17,10 +25,17 @@ namespace Gym
             SubscriptionComboBox.ItemsSource = context.Subscriptions.ToList();
         }
 
+        /// <summary>
+        /// Обработчик события нажатия на кнопку "Отмена". Закрывает окно без сохранения изменений.
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+        /// <summary>
+        /// Обработчик события нажатия на кнопку "Добавить". Проверяет корректность введённых данных, добавляет нового клиента в базу данных и отображает сообщение об успехе.
+        /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (!ValidateFields())
@@ -62,7 +77,9 @@ namespace Gym
             }
         }
 
-
+        /// <summary>
+        /// Проверяет корректность введённых данных в поля формы (фамилия, имя, отчество, дата рождения, телефон, email, абонемент).
+        /// </summary>
         private bool ValidateFields()
         {
             if (string.IsNullOrWhiteSpace(SurnameTextBox.Text) || !SurnameTextBox.Text.All(char.IsLetter))
@@ -111,6 +128,9 @@ namespace Gym
             return true;
         }
 
+        /// <summary>
+        /// Проверяет корректность введённого email с использованием стандартных правил форматирования email-адресов.
+        /// </summary>
         private bool IsValidEmail(string email)
         {
             try
