@@ -1,20 +1,28 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Security.Cryptography;
 using System.Text;
+using System.Timers;
 
-/// <summary>
-/// Класс окна авторизации пользователя, где осуществляется проверка логина и пароля для входа в систему.
-/// В зависимости от роли пользователя, открывается соответствующее окно.
-/// </summary>
 namespace Gym
 {
+
+    /// <summary>
+    /// Класс окна авторизации пользователя, где осуществляется проверка логина и пароля для входа в систему.
+    /// В зависимости от роли пользователя, открывается соответствующее окно.
+    /// </summary>
     public partial class LoginWindow : Window
     {
         private GymmEntities context = new GymmEntities();
+        private int failedAttempts = 0;
+        private int failedPasswordAttempts = 0;
+        private const int maxAttempts = 3;
+        private const int maxPasswordAttempts = 5;
+        private Timer lockoutTimer;
 
         /// <summary>
-        /// Конструктор окна авторизации. Инициализирует компоненты интерфейса.
+        /// Инициализирует окно авторизации.
         /// </summary>
         public LoginWindow()
         {
@@ -22,69 +30,101 @@ namespace Gym
         }
 
         /// <summary>
-        /// Обработчик клика по кнопке входа. Проверяет логин и пароль пользователя, осуществляет хеширование пароля
-        /// и находит пользователя в базе данных. В зависимости от роли пользователя открывает соответствующее окно.
-        /// Если данные некорректны, выводит ошибку.
+        /// Обрабатывает нажатие кнопки входа.
+        /// Проверяет логин и пароль, блокирует вход при превышении попыток.
         /// </summary>
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            if (failedAttempts >= maxAttempts || failedPasswordAttempts >= maxPasswordAttempts)
+            {
+                MessageBox.Show("Попытки входа исчерпаны. Подождите 1 минуту.", "Блокировка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             string login = LoginBox.Text.Trim();
             string password = PasswordBox.Password.Trim();
-
             string hashedPassword = HashPassword(password);
 
             var user = context.UserAccounts
                 .AsEnumerable()
-                .FirstOrDefault(u => u.Login == login && u.Password == hashedPassword);
+                .FirstOrDefault(u => u.Login == login);
 
             if (user != null)
             {
-                var role = context.Roles.FirstOrDefault(r => r.ID_Roles == user.Role_ID);
-
-                if (role != null)
+                if (user.Password == hashedPassword)
                 {
-                    MessageBox.Show("Авторизация успешна!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    string userRole = role.RoleName;
-
-                    if (userRole == "Тренер")
+                    var role = context.Roles.FirstOrDefault(r => r.ID_Roles == user.Role_ID);
+                    if (role != null)
                     {
-                        TrainerssWindow trainerWindow = new TrainerssWindow(user.ID_UserAccounts);  
-                        trainerWindow.Show();
-                    }
-                    else if (userRole == "Руководитель")
-                    {
-                        ManagersWindow managerWindow = new ManagersWindow();
-                        managerWindow.Show();
+                        MessageBox.Show("Авторизация успешна!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        OpenUserWindow(user.ID_UserAccounts, role.RoleName);
                     }
                     else
                     {
-                        MainWindow mainWindow = new MainWindow(userRole);
-                        mainWindow.Show();
+                        MessageBox.Show("Не удалось найти роль пользователя", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
-                    this.Close();
+                    failedPasswordAttempts = 0;
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось найти роль пользователя", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    failedPasswordAttempts++;
+                    MessageBox.Show("Неверный пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (failedPasswordAttempts >= maxPasswordAttempts)
+                    {
+                        MessageBox.Show("Попробуйте позже.", "Блокировка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        LockLoginFields();
+                    }
                 }
             }
             else
             {
+                failedAttempts++;
                 MessageBox.Show("Неверный логин или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (failedAttempts >= maxAttempts)
+                {
+                    LockLoginFields();
+                }
             }
         }
 
         /// <summary>
-        /// Хеширует пароль пользователя с использованием алгоритма SHA-256.
+        /// Блокирует поля ввода после превышения попыток входа.
         /// </summary>
-        public static string HashPassword(string password)
+        private void LockLoginFields()
+        {
+            LoginBox.IsEnabled = false;
+            PasswordBox.IsEnabled = false;
+            LoginButton.IsEnabled = false;
+
+            lockoutTimer = new Timer(60000); // 1 минута
+            lockoutTimer.Elapsed += UnlockLoginFields;
+            lockoutTimer.AutoReset = false;
+            lockoutTimer.Start();
+        }
+
+        /// <summary>
+        /// Разблокирует поля ввода после завершения таймера блокировки.
+        /// </summary>
+        private void UnlockLoginFields(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                LoginBox.IsEnabled = true;
+                PasswordBox.IsEnabled = true;
+                LoginButton.IsEnabled = true;
+                failedAttempts = 0;
+                failedPasswordAttempts = 0;
+            });
+        }
+
+        /// <summary>
+        /// Хеширует пароль с использованием SHA-256.
+        /// </summary>
+        private static string HashPassword(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
                 byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
                 StringBuilder builder = new StringBuilder();
                 foreach (byte b in bytes)
                 {
@@ -92,6 +132,34 @@ namespace Gym
                 }
                 return builder.ToString();
             }
+        }
+
+        /// <summary>
+        /// Открывает соответствующее окно в зависимости от роли пользователя.
+        /// </summary>
+        private void OpenUserWindow(int userId, string userRole)
+        {
+            if (userRole == "Тренер")
+            {
+                new TrainerssWindow(userId).Show();
+            }
+            else if (userRole == "Руководитель")
+            {
+                new ManagersWindow().Show();
+            }
+            else
+            {
+                new MainWindow(userRole).Show();
+            }
+            this.Close();
+        }
+
+        /// <summary>
+        /// Активирует кнопку входа только при наличии текста в полях логина и пароля.
+        /// </summary>
+        private void InputFieldsChanged(object sender, RoutedEventArgs e)
+        {
+            LoginButton.IsEnabled = !string.IsNullOrWhiteSpace(LoginBox.Text) && !string.IsNullOrWhiteSpace(PasswordBox.Password);
         }
     }
 }

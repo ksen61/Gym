@@ -45,6 +45,11 @@ namespace Gym
 
             try
             {
+                if (context.Clients.Any(c => c.Email == EmailTextBox.Text.Trim()))
+                {
+                    MessageBox.Show("Клиент с таким Email уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 var selectedSubscription = (Subscriptions)SubscriptionComboBox.SelectedItem;
 
                 DateTime endDate = DateTime.Now.AddDays(selectedSubscription.DurationDays);

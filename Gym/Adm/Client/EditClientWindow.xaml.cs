@@ -134,8 +134,10 @@ namespace Gym
                         var selectedSubscription = SubscriptionComboBox.SelectedItem as Subscriptions;
                         if (selectedSubscription != null)
                         {
+                            client.Subscriptions_ID = selectedSubscription.ID_Subscriptions; // Обновляем ID абонемента
                             client.EndDate = PurchaseDatePicker.SelectedDate.Value.AddDays(selectedSubscription.DurationDays);
                         }
+
                     }
 
                     var selectedStatus = SubscriptionStatusComboBox.SelectedItem as string;
@@ -210,6 +212,11 @@ namespace Gym
                 return false;
             }
 
+            if (context.Clients.Any(c => c.Email == EmailTextBox.Text.Trim()))
+            {
+                MessageBox.Show("Клиент с таким Email уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
             if (string.IsNullOrWhiteSpace(EmailTextBox.Text) || !IsValidEmail(EmailTextBox.Text))
             {
                 MessageBox.Show("Пожалуйста, введите корректный Email.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -19,11 +19,11 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Логин:" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Margin="0,20"/>
-        <TextBox x:Name="LoginBox" FontSize="20" Padding="15" MinWidth="250" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,20"/>
+        <TextBox x:Name="LoginBox" TextChanged="InputFieldsChanged" FontSize="20" Padding="15" MinWidth="250" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,20"/>
 
         <TextBlock Text="Пароль:" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Margin="0,20"/>
-        <PasswordBox x:Name="PasswordBox" FontSize="20" Padding="15" MinWidth="250" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Margin="0,20"/>
+        <PasswordBox x:Name="PasswordBox" PasswordChanged="InputFieldsChanged" FontSize="20" Padding="15" MinWidth="250" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Margin="0,20"/>
 
-        <Button Content="Войти" FontSize="20" Click="LoginButton_Click" Width="200" HorizontalAlignment="Center" Padding="15" Grid.Row="4" Grid.Column="1" Margin="0,20"/>
+        <Button x:Name="LoginButton" Content="Войти" IsEnabled="False" FontSize="20" Click="LoginButton_Click" Width="200" HorizontalAlignment="Center" Padding="15" Grid.Row="4" Grid.Column="1" Margin="0,20"/>
     </Grid>
 </Window>
